@@ -3,12 +3,15 @@ from .models import Project, Pledge
 
 
 class PledgeSerializer(serializers.ModelSerializer):
+    supporter = serializers.ReadOnlyField(source='supporter.id')
+
     class Meta:
         model = Pledge
         fields = '__all__'
 
 
 class ProjectSerializer(serializers.ModelSerializer):
+    owner = serializers.ReadOnlyField(source='owner.id')
 
     class Meta:
         model = Project
@@ -17,3 +20,5 @@ class ProjectSerializer(serializers.ModelSerializer):
 
 class ProjectDetailSerializer(ProjectSerializer):        
     pledges = PledgeSerializer(many=True, read_only=True)
+
+
