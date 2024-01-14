@@ -88,11 +88,10 @@ class PledgeList(APIView):
 
 
 class PledgeDetail(APIView):
-    # permission_classes = [
-    #     permissions.IsAuthenticatedOrReadOnly,
-    #     IsOwnerOrReadOnly,
-    #     ]
-    # need to fix the permission
+    permission_classes = [
+        permissions.IsAuthenticatedOrReadOnly,
+        IsOwnerOrReadOnly,
+        ]
 
     def get_object(self, pk):
         try:
