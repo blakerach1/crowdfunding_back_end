@@ -110,7 +110,7 @@ class PledgeDetail(APIView):
     def put(self, request, pk):
         pledge = self.get_object(pk)
         serializer = PledgeDetailSerializer(
-            instance= pledge,
+            instance=pledge,
             data=request.data,
             partial=True
         )
