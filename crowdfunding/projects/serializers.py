@@ -16,8 +16,8 @@ class PledgeDetailSerializer(PledgeSerializer):
         instance.amount = validated_data.get('amount', instance.amount)
         instance.comment = validated_data.get('comment', instance.comment)
         instance.anonymous = validated_data.get('anonymous', instance.anonymous)
-        instance.project_id = validated_data.get('project_id', instance.project_id)
-        instance.supporter_id = validated_data.get('supporter_id', instance.supporter_id)
+        instance.project = validated_data.get('project', instance.project)
+        instance.supporter = validated_data.get('supporter', instance.supporter)
         instance.save()
         return instance
 
