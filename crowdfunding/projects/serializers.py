@@ -27,17 +27,24 @@ class ProjectSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Project
-        fields = ['owner', 'title', 'description', 'goal', 'image', 'is_open', 'date_created']
+        fields = ['owner', 'title', 'description', 'goal', 'image', 'is_open', 'date_created', 'pledges', 'category']
 
 
 class CategoryProjectSerializer(serializers.ModelSerializer):  
     class Meta:
         model = Project
-        fields = ['title']
+        fields = ['get_title_display']
+
+
+class ProjectCategorySerializer(serializers.ModelSerializer):  
+    class Meta:
+        model = Category
+        fields = ['get_title_display']
 
 
 class ProjectDetailSerializer(ProjectSerializer):        
     pledges = PledgeSerializer(many=True, read_only=True)
+    category = ProjectCategorySerializer(many=True, read_only=True)
 
     def update(self, instance, validated_data):
         instance.title = validated_data.get('title', instance.title)
@@ -47,6 +54,7 @@ class ProjectDetailSerializer(ProjectSerializer):
         instance.is_open = validated_data.get('is_open', instance.is_open)
         instance.date_created = validated_data.get('date_created', instance.date_created)
         instance.owner = validated_data.get('owner', instance.owner)
+        instance.owner = validated_data.get('category', instance.category)
         instance.save()
         return instance
 

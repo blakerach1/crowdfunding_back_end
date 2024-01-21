@@ -59,7 +59,7 @@ class Category(models.Model):
     title = models.CharField(max_length=200, choices=PROJECT_CATEGORY_CHOICES)
     description = models.CharField(max_length=200)
     # thumbnail = models.FileField(upload_to=settings.STATIC_ROOT, null=True, blank=True, storage=settings.THUMBNAIL_STORAGE),
-    project = models.ManyToManyField('Project')
+    project = models.ManyToManyField('Project', related_name='category')
 
 
     class Meta:
