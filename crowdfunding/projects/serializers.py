@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Project, Pledge
+from .models import Project, Pledge, Category
 
 
 class PledgeSerializer(serializers.ModelSerializer):
@@ -27,7 +27,13 @@ class ProjectSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Project
-        fields = '__all__'
+        fields = ['owner', 'title', 'description', 'goal', 'image', 'is_open', 'date_created']
+
+
+class CategoryProjectSerializer(serializers.ModelSerializer):  
+    class Meta:
+        model = Project
+        fields = ['title']
 
 
 class ProjectDetailSerializer(ProjectSerializer):        
@@ -43,3 +49,17 @@ class ProjectDetailSerializer(ProjectSerializer):
         instance.owner = validated_data.get('owner', instance.owner)
         instance.save()
         return instance
+
+class CategorySerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Category
+        fields = ['get_title_display', 'description']
+
+
+class CategoryDetailSerializer(CategorySerializer):
+    project = CategoryProjectSerializer(many=True, read_only=True)
+
+    class Meta:
+        model = Category
+        fields = ['get_title_display', 'description', 'project']

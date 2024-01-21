@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Project, Pledge
+from .models import Project, Pledge, Category
 from users.models import CustomUser
 
 # Register your models here.
@@ -20,3 +20,9 @@ class UserAdmin(admin.ModelAdmin):
     pass
 
 admin.site.register(CustomUser, UserAdmin)
+
+
+class CategoryAdmin(admin.ModelAdmin):
+    pass
+
+admin.site.register(Category, ProjectAdmin)
