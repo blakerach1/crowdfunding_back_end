@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Project, Pledge, Category
+from .models import Project, Pledge, Categories
 from users.models import CustomUser
 
 # Register your models here.
@@ -25,4 +25,4 @@ admin.site.register(CustomUser, UserAdmin)
 class CategoryAdmin(admin.ModelAdmin):
     pass
 
-admin.site.register(Category, ProjectAdmin)
+admin.site.register(Categories, ProjectAdmin)

@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Project, Pledge, Category
+from .models import Project, Pledge, Categories
 
 
 class PledgeSerializer(serializers.ModelSerializer):
@@ -7,7 +7,7 @@ class PledgeSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Pledge
-        fields = '__all__'
+        fields = ['amount', 'comment', 'anonymous', 'project', 'supporter']
 
 
 class PledgeDetailSerializer(PledgeSerializer):
@@ -27,24 +27,22 @@ class ProjectSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Project
-        fields = ['owner', 'title', 'description', 'goal', 'image', 'is_open', 'date_created', 'pledges', 'category']
-
-
-class CategoryProjectSerializer(serializers.ModelSerializer):  
-    class Meta:
-        model = Project
-        fields = ['get_title_display']
+        fields = ['owner', 'title', 'description','goal','image', 'is_open']
 
 
 class ProjectCategorySerializer(serializers.ModelSerializer):  
     class Meta:
-        model = Category
-        fields = ['get_title_display']
+        model = Categories
+        fields = ['title']
 
 
-class ProjectDetailSerializer(ProjectSerializer):        
-    pledges = PledgeSerializer(many=True, read_only=True)
-    category = ProjectCategorySerializer(many=True, read_only=True)
+class ProjectDetailSerializer(serializers.ModelSerializer):        
+    pledges = PledgeSerializer(many=True, read_only=True, required=False)
+    categories = ProjectCategorySerializer(many=True, read_only=True, required=False)
+
+    class Meta:
+        model = Project
+        fields = ['owner', 'title', 'description', 'goal', 'image', 'is_open', 'date_created', 'pledges', 'categories']
 
     def update(self, instance, validated_data):
         instance.title = validated_data.get('title', instance.title)
@@ -54,20 +52,20 @@ class ProjectDetailSerializer(ProjectSerializer):
         instance.is_open = validated_data.get('is_open', instance.is_open)
         instance.date_created = validated_data.get('date_created', instance.date_created)
         instance.owner = validated_data.get('owner', instance.owner)
-        instance.owner = validated_data.get('category', instance.category)
+        instance.categories = validated_data.get('categories', instance.categories)
         instance.save()
         return instance
 
 class CategorySerializer(serializers.ModelSerializer):
 
     class Meta:
-        model = Category
-        fields = ['get_title_display', 'description']
+        model = Categories
+        fields = ['title']
 
 
 class CategoryDetailSerializer(CategorySerializer):
-    project = CategoryProjectSerializer(many=True, read_only=True)
+    project = ProjectCategorySerializer(many=True, read_only=True)
 
     class Meta:
-        model = Category
-        fields = ['get_title_display', 'description', 'project']
+        model = Categories
+        fields = ['title', 'description', 'project']
