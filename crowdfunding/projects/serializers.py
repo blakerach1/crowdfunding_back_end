@@ -7,7 +7,7 @@ class PledgeSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Pledge
-        fields = ['amount', 'comment', 'anonymous', 'project', 'supporter']
+        fields = ['amount', 'comment', 'anonymous', 'pledge_date', 'project', 'supporter']
 
 
 class PledgeDetailSerializer(PledgeSerializer):
@@ -21,30 +21,53 @@ class PledgeDetailSerializer(PledgeSerializer):
         instance.save()
         return instance
 
+class CategorySerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Categories
+        fields = ['title', 'description']
+
 
 class ProjectSerializer(serializers.ModelSerializer):
     owner = serializers.ReadOnlyField(source='owner.id')
+    categories = CategorySerializer(many=True, read_only=True)
 
     class Meta:
         model = Project
-        fields = ['owner', 'title', 'description','goal','image', 'is_open']
+        fields = ['owner', 'title', 'description','goal','image', 'is_open', 'date_created', 'categories']
 
 
-class ProjectCategorySerializer(serializers.ModelSerializer):  
+class ProjectCategorySerializer(serializers.ModelSerializer):
+    """Specific serializer for limited project info under category detail"""
+    
+    class Meta:
+        model = Project
+        fields = ['title', 'description']
+
+
+class CategoryDetailSerializer(CategorySerializer):
+    projects = ProjectCategorySerializer(many=True, read_only=True, required=False)
+
     class Meta:
         model = Categories
-        fields = ['title']
+        fields = ['title', 'description', 'projects']
 
 
 class ProjectDetailSerializer(serializers.ModelSerializer):        
     pledges = PledgeSerializer(many=True, read_only=True, required=False)
-    categories = ProjectCategorySerializer(many=True, read_only=True, required=False)
+    categories = CategorySerializer(many=True, read_only=True, required=False)
 
     class Meta:
         model = Project
         fields = ['owner', 'title', 'description', 'goal', 'image', 'is_open', 'date_created', 'pledges', 'categories']
 
     def update(self, instance, validated_data):
+        print("Validated Data:", validated_data)
+        if not validated_data:
+            errors = serializers.errors
+            print("Validation Errors:", errors)
+        
+        print("before update:", instance.categories.all())
         instance.title = validated_data.get('title', instance.title)
         instance.description = validated_data.get('description', instance.description)
         instance.goal = validated_data.get('goal', instance.goal)
@@ -52,20 +75,15 @@ class ProjectDetailSerializer(serializers.ModelSerializer):
         instance.is_open = validated_data.get('is_open', instance.is_open)
         instance.date_created = validated_data.get('date_created', instance.date_created)
         instance.owner = validated_data.get('owner', instance.owner)
-        instance.categories = validated_data.get('categories', instance.categories)
+        
+        # handle many-to-many relation (categories)
+        categories_data = validated_data.get('categories')
+        print("Categories data:", categories_data)
+        if categories_data is not None:
+            instance.categories.set(categories_data)
+        print("After update:", instance.categories.all())
         instance.save()
+
         return instance
 
-class CategorySerializer(serializers.ModelSerializer):
 
-    class Meta:
-        model = Categories
-        fields = ['title']
-
-
-class CategoryDetailSerializer(CategorySerializer):
-    project = ProjectCategorySerializer(many=True, read_only=True)
-
-    class Meta:
-        model = Categories
-        fields = ['title', 'description', 'project']

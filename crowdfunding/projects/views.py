@@ -11,7 +11,7 @@ class CategoryList(APIView):
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
 
     def get(self, request):
-        categories = Categories.objects.all()
+        categories = Categories.objects.all().order_by('title')
         serializer = CategorySerializer(categories, many=True)
         return Response(serializer.data)
 
