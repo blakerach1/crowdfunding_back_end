@@ -23,7 +23,17 @@ These initiatives might focus on providing greater education access or promoting
 
 ### API Spec
 
-{{insert image}}
+| **URL**        | **HTTP Method** | **Purpose**                          | **Request Body** | **Success Response Code** | **Authorizon/Authentication** | **Implemented Yet** |
+| -------------- | --------------- | ------------------------------------ | ---------------- | ------------------------- | ----------------------------- | ------------------- |
+| /projects/     | GET             | Returns all projects.                | N/A              | 200                       | None required                 | Yes                 |
+| /projects/     | POST            | Create a new project.                | Project object.  | 201                       | Must be logged in             | Yes                 |
+| /projects/1/   | GET             | Returns the project with ID of "1".  | N/A              | 200                       | None required                 | Yes                 |
+| /projects/1/   | PUT             | Updates the project with ID of "1".  | Project object.  | 202                       | Must be logged in             | Yes                 |
+| /pledges/      | GET             | Returns all pledges.                 | N/A              | 200                       | None required                 | Yes                 |
+| /pledges/      | POST            | Create a new pledge.                 | Pledge object.   | 201                       | Must be logged in             | Yes                 |
+| /pledges/1/    | GET             | Returns the pledge with ID of "1".   | N/A              | 200                       | None required                 | Yes                 |
+| /categories/   | GET             | Returns all categories.              | N/A              | 200                       | None required                 | Yes                 |
+| /categories/1/ | GET             | Returns the category with ID of "1". | N/A              | 200                       | None Required                 | Yes                 |
 
 ---
 
