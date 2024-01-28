@@ -22,6 +22,23 @@ class PledgeDetailSerializer(PledgeSerializer):
         return instance
 
 class CategorySerializer(serializers.ModelSerializer):
+    PROJECT_CATEGORIES = {
+        ("Community Empowerment", "Community Empowerment"),
+        ("Environmental Stewardship", "Environmental Stewardship"),
+        ("Education Access", "Education Access"),
+        ("Health and Wellness", "Health and Wellness"),
+        ("Equity and Inclusion", "Equity and Inclusion"),
+        ("Innovation for Social Impact", "Innovation for Social Impact"),
+        ("Sustainable Development", "Sustainable Development"),
+        ("Crisis Response and Relief", "Crisis Response and Relief"),
+        ("Tech for Good", "Tech for Good"),
+        ("Animal Welfare", "Animal Welfare"),
+        ("Clean Energy Initiatives", "Clean Energy Initiatives"),
+        ("Food Security", "Food Security"),
+        ("Community Resilience", "Community Resilience"),
+    }
+    
+    title = serializers.ChoiceField(choices = PROJECT_CATEGORIES)
 
     class Meta:
         model = Categories
@@ -55,19 +72,16 @@ class CategoryDetailSerializer(CategorySerializer):
 
 class ProjectDetailSerializer(serializers.ModelSerializer):        
     pledges = PledgeSerializer(many=True, read_only=True, required=False)
-    categories = CategorySerializer(many=True, read_only=True, required=False)
+    categories = serializers.PrimaryKeyRelatedField(many=True, required=False)
 
     class Meta:
         model = Project
         fields = ['owner', 'title', 'description', 'goal', 'image', 'is_open', 'date_created', 'pledges', 'categories']
 
     def update(self, instance, validated_data):
-        print("Validated Data:", validated_data)
-        if not validated_data:
-            errors = serializers.errors
-            print("Validation Errors:", errors)
         
         print("before update:", instance.categories.all())
+
         instance.title = validated_data.get('title', instance.title)
         instance.description = validated_data.get('description', instance.description)
         instance.goal = validated_data.get('goal', instance.goal)
@@ -77,13 +91,12 @@ class ProjectDetailSerializer(serializers.ModelSerializer):
         instance.owner = validated_data.get('owner', instance.owner)
         
         # handle many-to-many relation (categories)
-        categories_data = validated_data.get('categories')
-        print("Categories data:", categories_data)
-        if categories_data is not None:
-            instance.categories.set(categories_data)
-        print("After update:", instance.categories.all())
-        instance.save()
 
+        
+        instance.save()
+        serializer = ProjectDetailSerializer()
+        print(repr(serializer))
         return instance
+        
 
 
