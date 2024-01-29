@@ -24,6 +24,16 @@ URL: https://crowdfunding-back-end-424.fly.dev/projects/
 
 ## Interacting with API via Django REST Framework Interface
 
+# Successful GET request of USER endpoint
+
+# Successful POST request of USERS endpoint
+
+# Successful POST request to obtain token
+
+## Creating a New USER
+
+## Creating a New PROJECT
+
 ### API Spec
 
 | **URL**        | **HTTP Method** | **Purpose**                          | **Request Body** | **Success Response Code** | **Authorizon/Authentication** | **Implemented Yet** |
