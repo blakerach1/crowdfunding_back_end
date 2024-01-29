@@ -24,15 +24,47 @@ URL: https://crowdfunding-back-end-424.fly.dev/projects/
 
 ## Interacting with API via Django REST Framework Interface
 
-# Successful GET request of USER endpoint
+### Successful GET request of USER endpoint
 
-# Successful POST request of USERS endpoint
+### Successful POST request of USERS endpoint
 
-# Successful POST request to obtain token
+### Successful POST request to obtain token
 
 ## Creating a New USER
 
+### Using Insomnia
+
+#### 1. Set up a new POST HTTP request and enter: https://crowdfunding-back-end-424.fly.dav/users/ into the URL bar.
+
+#### 2. Populate the "JSON" body field with user data in JSON format.
+
+#### 3. Once you have entered at least the username, first_name, last_name, email and password for your user, Click send.
+
+### Using Django REST Interface
+
+#### 1. Enter the following in your web browser: https://crowdfunding-back-end-424.fly.dav/users/.
+
+#### 2. Populate the "JSON" body field with user data in JSON format.
+
+#### 3. Once you have entered at least the username, first_name, last_name, email and password for your user, Click post.
+
 ## Creating a New PROJECT
+
+### Using Insomnia
+
+#### 1. Set up a new POST HTTP request and enter: https://crowdfunding-back-end-424.fly.dav/projects/ into the URL bar.
+
+#### 2. Populate the "JSON" body field with project data in JSON format.
+
+#### 3. Once you have entered at least the title, description and goal for your project Click send.
+
+### Using Django REST Interface
+
+#### 1. Enter the following in your web browser: https://crowdfunding-back-end-424.fly.dav/projects/.
+
+#### 2. Populate the "JSON" body field with project data in JSON format.
+
+#### 3. Once you have entered at least the title, description and goal for your project Click post.
 
 ### API Spec
 
