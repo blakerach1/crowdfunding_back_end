@@ -14,12 +14,15 @@ Those seeking to raise awareness and gather financial support for their projects
 These initiatives target social issues and aim to create positive and lasting changes in society.
 These initiatives might focus on providing greater education access or promoting environmental sustainability for example.
 
-### Front End Pages/Functionality
+## Deployed Project Link
 
-- {{ A page on the front end }}
-  - {{ A list of dot points showing functionality is available on this page }}
-- {{ A second page on the front end }}
-  - {{ A list of dot points showing functionality is available on this page }}
+https://crowdfunding-back-end-424.fly.dev/projects/
+
+## Interacting with API via Insomina
+
+URL: https://crowdfunding-back-end-424.fly.dev/projects/
+
+## Interacting with API via Django REST Framework Interface
 
 ### API Spec
 
@@ -36,6 +39,13 @@ These initiatives might focus on providing greater education access or promoting
 | /categories/1/ | GET             | Returns the category with ID of "1". | N/A              | 200                       | None Required                 | No                  |
 
 ---
+
+### Front End Pages/Functionality
+
+- {{ A page on the front end }}
+  - {{ A list of dot points showing functionality is available on this page }}
+- {{ A second page on the front end }}
+  - {{ A list of dot points showing functionality is available on this page }}
 
 ## Contact Me
 
