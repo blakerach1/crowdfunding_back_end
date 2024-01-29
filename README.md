@@ -26,13 +26,21 @@ URL: https://crowdfunding-back-end-424.fly.dev/projects/
 
 ### Successful GET request of USER endpoint
 
+![Image of successful GET request for users endpoint](https://github.com/blakerach1/crowdfunding_back_end/blob/main/imgs/CrowdHarbour_get_users.png?raw=true)
+
 ### Successful POST request of USERS endpoint
 
+![Image of successful POST request for users endpoint](https://github.com/blakerach1/crowdfunding_back_end/blob/main/imgs/CrowdHarbour_post_users.png?raw=true)
+
 ### Successful POST request to obtain token
+
+![Image of successful POST request for token endpoint](https://github.com/blakerach1/crowdfunding_back_end/blob/main/imgs/CrowdHarbour_post_token.png?raw=true)
 
 ## Creating a New USER
 
 ### Using Insomnia
+
+![annotated image of creating a new user via Insomnia](https://github.com/blakerach1/crowdfunding_back_end/blob/main/imgs/CrowdHarbour_Create_User_Insomnia.png?raw=true)
 
 #### 1. Set up a new POST HTTP request and enter: https://crowdfunding-back-end-424.fly.dav/users/ into the URL bar.
 
@@ -42,21 +50,31 @@ URL: https://crowdfunding-back-end-424.fly.dev/projects/
 
 ### Using Django REST Interface
 
+![annotated image of creating a new user via Django REST interface](https://github.com/blakerach1/crowdfunding_back_end/blob/main/imgs/CrowdHarbour_Create_User_API.png?raw=true)
+
 #### 1. Enter the following in your web browser: https://crowdfunding-back-end-424.fly.dav/users/.
 
 #### 2. Populate the "JSON" body field with user data in JSON format.
 
 #### 3. Once you have entered at least the username, first_name, last_name, email and password for your user, Click post.
 
+![image with successful response for user creation](https://github.com/blakerach1/crowdfunding_back_end/blob/main/imgs/CrowdHarbour_Create_User_API_1.png?raw=true)
+
 ## Creating a New PROJECT
 
 ### Using Insomnia
+
+![first annotated image of creating a new project via Insomnia](https://github.com/blakerach1/crowdfunding_back_end/blob/main/imgs/CrowdHarbour_Create_Project1_Insomnia.png?raw=true)
 
 #### 1. Set up a new POST HTTP request and enter: https://crowdfunding-back-end-424.fly.dav/projects/ into the URL bar.
 
 #### 2. Populate the "JSON" body field with project data in JSON format.
 
-#### 3. Once you have entered at least the title, description and goal for your project Click send.
+#### 3. Enter your user token under the "bearer" tab.
+
+#### 4. Once you have entered at least the title, description and goal for your project Click send.
+
+![second annotated image of creating a new project via Insomnia](https://github.com/blakerach1/crowdfunding_back_end/blob/main/imgs/CrowdHarbour_Create_Project2_Insomnia.png?raw=true)
 
 ### Using Django REST Interface
 
