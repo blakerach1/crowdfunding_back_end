@@ -25,7 +25,7 @@ class Project(models.Model):
         on_delete=models.CASCADE,
         related_name='owned_projects'
         )
-    categories = models.ManyToManyField(Categories, related_name='projects')
+    category = models.ManyToManyField(Categories, related_name='projects')
 
     def __str__(self):
         return self.title

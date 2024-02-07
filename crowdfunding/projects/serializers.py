@@ -30,20 +30,20 @@ class CategorySerializer(serializers.ModelSerializer):
 
 class ProjectSerializer(serializers.ModelSerializer):
     owner = serializers.ReadOnlyField(source='owner.id')
-    categories = CategorySerializer(many=True)
+    category = serializers.StringRelatedField(many=True)
 
     class Meta:
         model = Project
-        fields = ['owner', 'title', 'description','goal','image', 'is_open', 'date_created', 'categories']
+        fields = ['owner', 'title', 'description','goal','image', 'is_open', 'date_created', 'category']
 
 
 class ProjectDetailSerializer(serializers.ModelSerializer):        
     pledges = PledgeSerializer(many=True, read_only=True, required=False)
-    categories = CategorySerializer(many=True)
+    category = serializers.StringRelatedField(many=True)
 
     class Meta:
         model = Project
-        fields = ['owner', 'title', 'description', 'goal', 'image', 'is_open', 'date_created', 'pledges', 'categories']
+        fields = ['owner', 'title', 'description', 'goal', 'image', 'is_open', 'date_created', 'pledges', 'category']
 
     def update(self, instance, validated_data):
         instance.title = validated_data.get('title', instance.title)
