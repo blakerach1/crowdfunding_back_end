@@ -47,40 +47,28 @@ class CategorySerializer(serializers.ModelSerializer):
 
 class ProjectSerializer(serializers.ModelSerializer):
     owner = serializers.ReadOnlyField(source='owner.id')
-    categories = CategorySerializer(many=True, read_only=True)
+    categories = CategorySerializer(many=True)
 
     class Meta:
         model = Project
         fields = ['owner', 'title', 'description','goal','image', 'is_open', 'date_created', 'categories']
 
 
-class ProjectCategorySerializer(serializers.ModelSerializer):
-    """Specific serializer for limited project info under category detail"""
-    
-    class Meta:
-        model = Project
-        fields = ['title', 'description']
-
-
-class CategoryDetailSerializer(CategorySerializer):
-    projects = ProjectCategorySerializer(many=True, read_only=True, required=False)
-
-    class Meta:
-        model = Categories
-        fields = ['title', 'description', 'projects']
-
-
 class ProjectDetailSerializer(serializers.ModelSerializer):        
     pledges = PledgeSerializer(many=True, read_only=True, required=False)
-    categories = serializers.PrimaryKeyRelatedField(many=True, required=False)
+    categories = CategorySerializer(many=True)
 
     class Meta:
         model = Project
         fields = ['owner', 'title', 'description', 'goal', 'image', 'is_open', 'date_created', 'pledges', 'categories']
 
     def update(self, instance, validated_data):
-        
-        print("before update:", instance.categories.all())
+        categories_data = validated_data.pop('categories', None)
+        if categories_data is not None:
+            instance.categories.clear()
+            for category_data in categories_data:
+                category, created = Categories.objects.get_or_create(**category_data)
+                instance.categories.add(category)
 
         instance.title = validated_data.get('title', instance.title)
         instance.description = validated_data.get('description', instance.description)
@@ -89,13 +77,9 @@ class ProjectDetailSerializer(serializers.ModelSerializer):
         instance.is_open = validated_data.get('is_open', instance.is_open)
         instance.date_created = validated_data.get('date_created', instance.date_created)
         instance.owner = validated_data.get('owner', instance.owner)
-        
-        # handle many-to-many relation (categories)
-
-        
+       
         instance.save()
-        serializer = ProjectDetailSerializer()
-        print(repr(serializer))
+
         return instance
         
 
