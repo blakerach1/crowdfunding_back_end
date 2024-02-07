@@ -5,24 +5,7 @@ from django.contrib.auth import get_user_model
 # Create your models here.
 
 class Categories(models.Model):
-    """A basic category model"""
-
-    PROJECT_CATEGORIES = {
-        ("Community Empowerment", "Community Empowerment"),
-        ("Environmental Stewardship", "Environmental Stewardship"),
-        ("Education Access", "Education Access"),
-        ("Health and Wellness", "Health and Wellness"),
-        ("Equity and Inclusion", "Equity and Inclusion"),
-        ("Innovation for Social Impact", "Innovation for Social Impact"),
-        ("Sustainable Development", "Sustainable Development"),
-        ("Crisis Response and Relief", "Crisis Response and Relief"),
-        ("Tech for Good", "Tech for Good"),
-        ("Animal Welfare", "Animal Welfare"),
-        ("Clean Energy Initiatives", "Clean Energy Initiatives"),
-        ("Food Security", "Food Security"),
-        ("Community Resilience", "Community Resilience"),
-    }
-    title = models.CharField(max_length=200, choices=PROJECT_CATEGORIES)
+    title = models.CharField(max_length=200)
     description = models.CharField(max_length=500)
 
     class Meta:

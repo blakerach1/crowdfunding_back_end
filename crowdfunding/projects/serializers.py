@@ -22,23 +22,6 @@ class PledgeDetailSerializer(PledgeSerializer):
         return instance
 
 class CategorySerializer(serializers.ModelSerializer):
-    PROJECT_CATEGORIES = {
-        ("Community Empowerment", "Community Empowerment"),
-        ("Environmental Stewardship", "Environmental Stewardship"),
-        ("Education Access", "Education Access"),
-        ("Health and Wellness", "Health and Wellness"),
-        ("Equity and Inclusion", "Equity and Inclusion"),
-        ("Innovation for Social Impact", "Innovation for Social Impact"),
-        ("Sustainable Development", "Sustainable Development"),
-        ("Crisis Response and Relief", "Crisis Response and Relief"),
-        ("Tech for Good", "Tech for Good"),
-        ("Animal Welfare", "Animal Welfare"),
-        ("Clean Energy Initiatives", "Clean Energy Initiatives"),
-        ("Food Security", "Food Security"),
-        ("Community Resilience", "Community Resilience"),
-    }
-    
-    title = serializers.ChoiceField(choices = PROJECT_CATEGORIES)
 
     class Meta:
         model = Categories
