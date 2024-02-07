@@ -79,16 +79,12 @@ class ProjectDetail(APIView):
             data=request.data,
             partial=True
         )
-
-        
+       
         # following deserialization, the data can be accesses using serializer.validated_data
         # and you can print is print(serializer.validated_data)
 
         if serializer.is_valid():
             serializer.save()
-            categories_data = serializer.validated_data.get('categories')
-            if categories_data is not None:
-                    project.categories.set(categories_data)
             return Response(
                 serializer.data,
                 status=status.HTTP_202_ACCEPTED

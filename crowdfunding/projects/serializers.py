@@ -46,13 +46,6 @@ class ProjectDetailSerializer(serializers.ModelSerializer):
         fields = ['owner', 'title', 'description', 'goal', 'image', 'is_open', 'date_created', 'pledges', 'categories']
 
     def update(self, instance, validated_data):
-        categories_data = validated_data.pop('categories', None)
-        if categories_data is not None:
-            instance.categories.clear()
-            for category_data in categories_data:
-                category, created = Categories.objects.get_or_create(**category_data)
-                instance.categories.add(category)
-
         instance.title = validated_data.get('title', instance.title)
         instance.description = validated_data.get('description', instance.description)
         instance.goal = validated_data.get('goal', instance.goal)
