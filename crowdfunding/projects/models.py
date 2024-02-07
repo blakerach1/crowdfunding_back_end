@@ -3,7 +3,23 @@ from django.contrib.auth import get_user_model
 
 
 class Categories(models.Model):
-    title = models.CharField(max_length=200)
+    CATEGORY_CHOICES = [
+        ('Stewardship', 'Stewardship'),
+        ('Education Access', 'Education Access'),
+        ('Health and Wellness', 'Health and Wellness'),
+        ('Innovation for Social Impact', 'Innovation for Social Impact'),
+        ('Sustainable Development', 'Sustainable Development'),
+        ('Crisis Response and Relief', 'Crisis Response and Relief'),
+        ('Tech for Good', 'Tech for Good'),
+        ('Animal Welfare', 'Animal Welfare'),
+        ('Clean Energy Initiatives', 'Clean Energy Initiatives'),
+        ('Food Security', 'Food Security'),
+        ('Mental Health Support', 'Mental Health Support'),
+        ('Community Resilience', 'Community Resilience'),
+    ]
+
+    title = models.CharField(max_length=200, choices=CATEGORY_CHOICES)
+
     description = models.CharField(max_length=500)
 
     class Meta:
