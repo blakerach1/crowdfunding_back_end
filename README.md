@@ -104,7 +104,7 @@ URL: https://crowdfunding-back-end-424.fly.dev/projects/
 
 ### Database Schema
 
-![image of database schema for the project]()
+![image of database schema for the project](https://github.com/blakerach1/crowdfunding_back_end/blob/main/imgs/CrowdHarbour.drawio.png?raw=true)
 
 ### Front End Pages/Functionality
 
