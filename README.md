@@ -102,6 +102,10 @@ URL: https://crowdfunding-back-end-424.fly.dev/projects/
 
 ---
 
+### Database Schema
+
+![image of database schema for the project]()
+
 ### Front End Pages/Functionality
 
 - {{ A page on the front end }}
