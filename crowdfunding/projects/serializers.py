@@ -7,7 +7,7 @@ class PledgeSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Pledge
-        fields = ['amount', 'comment', 'anonymous', 'pledge_date', 'project', 'supporter']
+        fields = ['id', 'amount', 'comment', 'anonymous', 'pledge_date', 'project', 'supporter']
 
 
 class PledgeDetailSerializer(PledgeSerializer):
@@ -25,7 +25,7 @@ class CategorySerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Category
-        fields = ['title', 'description']
+        fields = ['id','title', 'description']
 
 
 class ProjectSerializer(serializers.ModelSerializer):
@@ -38,7 +38,7 @@ class ProjectSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Project
-        fields = ['owner', 'title', 'description','goal','image', 'is_open', 'date_created', 'categories']
+        fields = ['id','owner', 'title', 'description','goal','image', 'is_open', 'date_created', 'categories']
 
 
 class ProjectDetailSerializer(serializers.ModelSerializer):        
@@ -51,7 +51,7 @@ class ProjectDetailSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Project
-        fields = ['owner', 'title', 'description', 'goal', 'image', 'is_open', 'date_created', 'pledges', 'categories']
+        fields = ['id','owner', 'title', 'description', 'goal', 'image', 'is_open', 'date_created', 'pledges', 'categories']
 
     def update(self, instance, validated_data):
         

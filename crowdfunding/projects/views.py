@@ -14,7 +14,20 @@ class CategoryList(APIView):
         categories = Category.objects.all().order_by('title')
         serializer = CategorySerializer(categories, many=True)
         return Response(serializer.data)
-
+    
+    def post(self, request):
+        serializer = CategorySerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(
+                serializer.data, 
+                status=status.HTTP_201_CREATED
+        )
+        return Response(
+            serializer.errors,
+            status=status.HTTP_400_BAD_REQUEST
+        )
+        
 
 class CategoryDetail(APIView):
     permission_classes = [
@@ -34,6 +47,24 @@ class CategoryDetail(APIView):
         serializer = CategorySerializer(category)
         return Response(serializer.data)
 
+    def put(self, request, pk):
+        category = self.get_object(pk)
+        serializer = CategorySerializer(
+            instance=category,
+            data=request.data,
+            partial=True
+        )
+
+        if serializer.is_valid():
+            serializer.save()
+            return Response(
+                serializer.data,
+                status=status.HTTP_202_ACCEPTED
+            )
+        return Response(
+            serializer.errors,
+            status=status.HTTP_405_METHOD_NOT_ALLOWED
+        )        
 
 class ProjectList(APIView):
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]

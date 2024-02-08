@@ -95,8 +95,10 @@ URL: https://crowdfunding-back-end-424.fly.dev/projects/
 | /pledges/      | GET             | Returns all pledges.                 | N/A              | 200                       | None required                 | Yes                 |
 | /pledges/      | POST            | Create a new pledge.                 | Pledge object.   | 201                       | Must be logged in             | Yes                 |
 | /pledges/1/    | GET             | Returns the pledge with ID of "1".   | N/A              | 200                       | None required                 | Yes                 |
-| /categories/   | GET             | Returns all categories.              | N/A              | 200                       | None required                 | No                  |
-| /categories/1/ | GET             | Returns the category with ID of "1". | N/A              | 200                       | None Required                 | No                  |
+| /categories/   | GET             | Returns all categories.              | N/A              | 200                       | None required                 | Yes                 |
+| /categories/   | POST            | Create a new category.               | Category object. | 200                       | Must be an admin user         | Yes                 |
+| /categories/1/ | GET             | Returns the category with ID of "1". | N/A              | 200                       | Must be an admin user         | Yes                 |
+| /categories/1/ | PUT             | Updates the category with ID of "1". | Category object. | 202                       | Must be an admin user         | Yes                 |
 
 ---
 
@@ -106,22 +108,6 @@ URL: https://crowdfunding-back-end-424.fly.dev/projects/
   - {{ A list of dot points showing functionality is available on this page }}
 - {{ A second page on the front end }}
   - {{ A list of dot points showing functionality is available on this page }}
-
-### API Spec
-
-| **URL**        | **HTTP Method** | **Purpose**                          | **Request Body** | **Success Response Code** | **Authorizon/Authentication** | **Implemented Yet** |
-| -------------- | --------------- | ------------------------------------ | ---------------- | ------------------------- | ----------------------------- | ------------------- |
-| /projects/     | GET             | Returns all projects.                | N/A              | 200                       | None required                 | Yes                 |
-| /projects/     | POST            | Create a new project.                | Project object.  | 201                       | Must be logged in             | Yes                 |
-| /projects/1/   | GET             | Returns the project with ID of "1".  | N/A              | 200                       | None required                 | Yes                 |
-| /projects/1/   | PUT             | Updates the project with ID of "1".  | Project object.  | 202                       | Must be logged in             | Yes                 |
-| /pledges/      | GET             | Returns all pledges.                 | N/A              | 200                       | None required                 | Yes                 |
-| /pledges/      | POST            | Create a new pledge.                 | Pledge object.   | 201                       | Must be logged in             | Yes                 |
-| /pledges/1/    | GET             | Returns the pledge with ID of "1".   | N/A              | 200                       | None required                 | Yes                 |
-| /categories/   | GET             | Returns all categories.              | N/A              | 200                       | None required                 | Yes                 |
-| /categories/1/ | GET             | Returns the category with ID of "1". | N/A              | 200                       | None Required                 | Yes                 |
-
----
 
 ## Contact Me
 
