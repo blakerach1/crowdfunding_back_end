@@ -66,6 +66,7 @@ class CategoryDetail(APIView):
             status=status.HTTP_405_METHOD_NOT_ALLOWED
         )        
 
+
 class ProjectList(APIView):
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
 
@@ -86,6 +87,7 @@ class ProjectList(APIView):
             serializer.errors,
             status=status.HTTP_400_BAD_REQUEST
         )
+
 
 class ProjectDetail(APIView):
     permission_classes = [
@@ -152,6 +154,7 @@ class PledgeList(APIView):
 
 
 class PledgeDetail(APIView):
+
     permission_classes = [
         permissions.IsAuthenticatedOrReadOnly,
         IsPledgeSupporterOwnerOrReadOnly,
@@ -188,3 +191,4 @@ class PledgeDetail(APIView):
             serializer.errors,
             status=status.HTTP_405_METHOD_NOT_ALLOWED
         )
+    
