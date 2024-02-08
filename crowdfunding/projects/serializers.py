@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Project, Pledge, Categories
+from .models import Project, Pledge, Category
 
 
 class PledgeSerializer(serializers.ModelSerializer):
@@ -24,36 +24,40 @@ class PledgeDetailSerializer(PledgeSerializer):
 class CategorySerializer(serializers.ModelSerializer):
 
     class Meta:
-        model = Categories
+        model = Category
         fields = ['title', 'description']
 
 
 class ProjectSerializer(serializers.ModelSerializer):
     owner = serializers.ReadOnlyField(source='owner.id')
-    category = serializers.StringRelatedField(many=True)
-
-    class Meta:
-        model = Project
-        fields = ['owner', 'title', 'description','goal','image', 'is_open', 'date_created', 'category']
-
-
-class ProjectDetailSerializer(serializers.ModelSerializer):        
-    pledges = PledgeSerializer(many=True, read_only=True, required=False)
-    category = serializers.SlugRelatedField(
+    categories = serializers.SlugRelatedField(
         many=True,
-        queryset=Categories.objects.all(),
-        slug_field='title'
+        queryset=Category.objects.all(),
+        slug_field='title',
     )
 
     class Meta:
         model = Project
-        fields = ['owner', 'title', 'description', 'goal', 'image', 'is_open', 'date_created', 'pledges', 'category']
+        fields = ['owner', 'title', 'description','goal','image', 'is_open', 'date_created', 'categories']
+
+
+class ProjectDetailSerializer(serializers.ModelSerializer):        
+    pledges = PledgeSerializer(many=True, read_only=True, required=False)
+    categories = serializers.SlugRelatedField(
+        many=True,
+        queryset=Category.objects.all(),
+        slug_field='title',
+    )
+
+    class Meta:
+        model = Project
+        fields = ['owner', 'title', 'description', 'goal', 'image', 'is_open', 'date_created', 'pledges', 'categories']
 
     def update(self, instance, validated_data):
         
-        instance.category.clear()
-        for category in validated_data['category']:
-            instance.category.add(category)
+        instance.categories.clear()
+        for category in validated_data['categories']:
+            instance.categories.add(category)
         
         instance.title = validated_data.get('title', instance.title)
         instance.description = validated_data.get('description', instance.description)

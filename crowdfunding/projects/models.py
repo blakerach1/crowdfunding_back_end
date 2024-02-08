@@ -2,24 +2,8 @@ from django.db import models
 from django.contrib.auth import get_user_model
 
 
-class Categories(models.Model):
-    CATEGORY_CHOICES = [
-        ('Stewardship', 'Stewardship'),
-        ('Education Access', 'Education Access'),
-        ('Health and Wellness', 'Health and Wellness'),
-        ('Innovation for Social Impact', 'Innovation for Social Impact'),
-        ('Sustainable Development', 'Sustainable Development'),
-        ('Crisis Response and Relief', 'Crisis Response and Relief'),
-        ('Tech for Good', 'Tech for Good'),
-        ('Animal Welfare', 'Animal Welfare'),
-        ('Clean Energy Initiatives', 'Clean Energy Initiatives'),
-        ('Food Security', 'Food Security'),
-        ('Mental Health Support', 'Mental Health Support'),
-        ('Community Resilience', 'Community Resilience'),
-    ]
-
-    title = models.CharField(max_length=200, choices=CATEGORY_CHOICES)
-
+class Category(models.Model):
+    title = models.CharField(max_length=200, unique=True)
     description = models.CharField(max_length=500)
 
     class Meta:
@@ -41,7 +25,7 @@ class Project(models.Model):
         on_delete=models.CASCADE,
         related_name='owned_projects'
         )
-    category = models.ManyToManyField(Categories, related_name='projects')
+    categories = models.ManyToManyField(Category, related_name='projects')
 
     def __str__(self):
         return self.title
