@@ -1,7 +1,17 @@
 from django.db import models
 from django.contrib.auth import get_user_model
 
-# Create your models here.
+
+class Category(models.Model):
+    title = models.CharField(max_length=200, unique=True)
+    description = models.CharField(max_length=500)
+
+    class Meta:
+        ordering = ["title"]    
+    
+    def __str__(self):
+        return self.title
+
 
 class Project(models.Model):
     title = models.CharField(max_length=200)
@@ -15,13 +25,17 @@ class Project(models.Model):
         on_delete=models.CASCADE,
         related_name='owned_projects'
         )
+    categories = models.ManyToManyField(Category, related_name='projects')
 
-# The related name specifies the name of the reverse relationship 
+    def __str__(self):
+        return self.title
+
 
 class Pledge(models.Model):
     amount = models.IntegerField()
     comment = models.CharField(max_length=200)
     anonymous = models.BooleanField()
+    pledge_date = models.DateTimeField(auto_now=True)
     project = models.ForeignKey(
         'Project',
         on_delete=models.CASCADE,
@@ -33,8 +47,3 @@ class Pledge(models.Model):
         related_name='pledges'
     )
 
-
-# class Category(models.Model):
-#     project = models.ManyToManyField('Project')
-#     title = models.CharField(max_length=200)
-#     # need to define the categories

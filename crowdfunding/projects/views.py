@@ -1,10 +1,39 @@
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from .models import Project, Pledge
-from .serializers import ProjectSerializer, PledgeSerializer, ProjectDetailSerializer, PledgeDetailSerializer
+from .models import Project, Pledge, Category
+from .serializers import ProjectSerializer, PledgeSerializer, ProjectDetailSerializer, PledgeDetailSerializer, CategorySerializer
 from django.http import Http404
 from rest_framework import status, permissions
 from .permissions import IsProjectOwnerOrReadOnly, IsPledgeSupporterOwnerOrReadOnly
+
+
+class CategoryList(APIView):
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+
+    def get(self, request):
+        categories = Category.objects.all().order_by('title')
+        serializer = CategorySerializer(categories, many=True)
+        return Response(serializer.data)
+
+
+class CategoryDetail(APIView):
+    permission_classes = [
+        permissions.IsAuthenticatedOrReadOnly,
+        permissions.IsAdminUser,
+        ]
+
+    def get_object(self, pk):
+        try:
+            category = Category.objects.get(pk=pk)
+            return category
+        except Category.DoesNotExist:
+            raise Http404
+ 
+    def get(self, request, pk):
+        category = self.get_object(pk)
+        serializer = CategorySerializer(category)
+        return Response(serializer.data)
+
 
 class ProjectList(APIView):
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
@@ -53,6 +82,10 @@ class ProjectDetail(APIView):
             data=request.data,
             partial=True
         )
+       
+        # following deserialization, the data can be accesses using serializer.validated_data
+        # and you can print is print(serializer.validated_data)
+
         if serializer.is_valid():
             serializer.save()
             return Response(
