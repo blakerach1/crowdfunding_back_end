@@ -88,6 +88,12 @@ URL: https://crowdfunding-back-end-424.fly.dev/projects/
 
 | **URL**        | **HTTP Method** | **Purpose**                          | **Request Body** | **Success Response Code** | **Authorizon/Authentication** | **Implemented Yet** |
 | -------------- | --------------- | ------------------------------------ | ---------------- | ------------------------- | ----------------------------- | ------------------- |
+| /users/        | GET             | Returns restricted info on users.    | N/A              | 200                       | None required                 | Yes                 |
+| /users/        | GET             | Returns all info on all users.       | N/A              | 200                       | Must be an admin user         | Yes                 |
+| /users/        | POST            | Creates a new user.                  | N/A              | 200                       | None required                 | Yes                 |
+| /users/1/      | GET             | Returns restricted info on user "1". | N/A              | 200                       | None required                 | Yes                 |
+| /users/1/      | GET             | Returns all info on user "1".        | N/A              | 200                       | Must be an admin user         | Yes                 |
+| /users/1/      | DELETE          | Deletes a User.                      | N/A              | 202                       | Must be user or admin user    | Yes                 |
 | /projects/     | GET             | Returns all projects.                | N/A              | 200                       | None required                 | Yes                 |
 | /projects/     | POST            | Create a new project.                | Project object.  | 201                       | Must be logged in             | Yes                 |
 | /projects/1/   | GET             | Returns the project with ID of "1".  | N/A              | 200                       | None required                 | Yes                 |
