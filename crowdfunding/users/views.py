@@ -1,9 +1,10 @@
 from django.http import Http404
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from rest_framework import status
+from rest_framework import status, permissions
 from .models import CustomUser
 from .serializers import CustomUserSerializer
+from .permissions import IsUserOrReadOnlyUser
 
 
 class CustomUserList(APIView):
@@ -22,6 +23,7 @@ class CustomUserList(APIView):
     
 
 class CustomUserDetail(APIView):
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly, IsUserOrReadOnlyUser]
 
     def get_object(self, pk):
         try:
@@ -34,4 +36,30 @@ class CustomUserDetail(APIView):
         serializer = CustomUserSerializer(user)
         return Response(serializer.data)
     
+    def put(self, request, pk):
+        user = self.get_object(pk)
+        
+        if user != request.user:
+            return Response(
+                {"message": "You do not have permission to perform this action"},
+                status=status.HTTP_403_FORBIDDEN
+            )
+        
+        serializer = CustomUserSerializer(user, data=request.data, partial=True)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    
+    def delete(self, request, pk):
+        user = self.get_object(pk)
+
+        if not request.user.is_staff:
+            return Response(
+                {"message": "You do not have permission to perform this action"},
+                status=status.HTTP_403_FORBIDDEN
+            )
+
+        user.delete()
+        return Response({"message: User successfully deleted"}, status=status.HTTP_200_OK)
     

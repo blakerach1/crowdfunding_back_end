@@ -1,7 +1,6 @@
 from rest_framework import serializers
 from .models import Project, Pledge, Category
 
-
 class PledgeSerializer(serializers.ModelSerializer):
     supporter = serializers.ReadOnlyField(source='supporter.id')
 

@@ -16,6 +16,12 @@ class CategoryList(APIView):
         return Response(serializer.data)
     
     def post(self, request):
+        if not request.user.is_staff:
+            return Response(
+                {"message": "You do not have permission to perform this action"},
+                status=status.HTTP_403_FORBIDDEN
+            )
+        
         serializer = CategorySerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
@@ -27,8 +33,7 @@ class CategoryList(APIView):
             serializer.errors,
             status=status.HTTP_400_BAD_REQUEST
         )
-        
-
+    
 class CategoryDetail(APIView):
     permission_classes = [
         permissions.IsAuthenticatedOrReadOnly,
@@ -64,7 +69,13 @@ class CategoryDetail(APIView):
         return Response(
             serializer.errors,
             status=status.HTTP_405_METHOD_NOT_ALLOWED
-        )        
+        )
+
+    def delete(self, request, pk):
+        category = self.get_object(pk)
+        category.delete()
+        return Response({"message": "All categories successfully deleted"}, status=status.HTTP_200_OK)
+                
 
 class ProjectList(APIView):
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
@@ -128,6 +139,10 @@ class ProjectDetail(APIView):
             status=status.HTTP_405_METHOD_NOT_ALLOWED
         )
     
+    def delete(self, request, pk):
+        project = self.get_object(pk)
+        project.delete()
+        return Response({"message": "Project successfully deleted"}, status=status.HTTP_200_OK)
 
 class PledgeList(APIView):
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
@@ -188,3 +203,8 @@ class PledgeDetail(APIView):
             serializer.errors,
             status=status.HTTP_405_METHOD_NOT_ALLOWED
         )
+    
+    def delete(self, request, pk):
+        pledge = self.get_object(pk)
+        pledge.delete()
+        return Response({"message": "Pledge successfully deleted"}, status=status.HTTP_200_OK)
