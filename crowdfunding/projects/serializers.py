@@ -29,6 +29,7 @@ class CategorySerializer(serializers.ModelSerializer):
 
 
 class ProjectSerializer(serializers.ModelSerializer):
+    pledges = PledgeSerializer(many=True, read_only=True, required=False)
     owner = serializers.ReadOnlyField(source='owner.id')
     categories = serializers.SlugRelatedField(
         many=True,
@@ -38,7 +39,7 @@ class ProjectSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Project
-        fields = ['id','owner', 'title', 'description','goal','image', 'is_open', 'date_created', 'categories']
+        fields = ['id','owner', 'title', 'description','goal','image', 'is_open', 'date_created', 'pledges', 'categories']
 
 
 class ProjectDetailSerializer(serializers.ModelSerializer):        
