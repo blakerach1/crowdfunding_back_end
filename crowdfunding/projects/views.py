@@ -5,6 +5,7 @@ from .serializers import ProjectSerializer, PledgeSerializer, ProjectDetailSeria
 from django.http import Http404
 from rest_framework import status, permissions
 from .permissions import IsProjectOwnerOrReadOnly, IsPledgeSupporterOwnerOrReadOnly
+from rest_framework.parsers import MultiPartParser, FormParser
 
 
 class CategoryList(APIView):
@@ -79,13 +80,15 @@ class CategoryDetail(APIView):
 
 class ProjectList(APIView):
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+    parser_classes = [MultiPartParser, FormParser] # break different types of data up including text and img
 
     def get(self, request):
         projects = Project.objects.all()
         serializer = ProjectSerializer(projects, many=True)
         return Response(serializer.data)
 
-    def post(self, request):
+    def post(self, request, format=None):
+        print(request.data) #to identify any data issues
         serializer = ProjectSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save(owner=request.user)
