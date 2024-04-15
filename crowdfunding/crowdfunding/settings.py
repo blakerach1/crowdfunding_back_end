@@ -100,7 +100,7 @@ TEMPLATES = [
 ]
 
 CORS_ALLOWED_ORIGINS = [
-    "https://crowdharbour.netlify.app/"
+    "https://crowdharbour.netlify.app/",
 ]
 
 WSGI_APPLICATION = 'crowdfunding.wsgi.application'
