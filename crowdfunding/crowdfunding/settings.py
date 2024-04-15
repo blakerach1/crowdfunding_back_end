@@ -13,6 +13,9 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 import os
 from pathlib import Path
 from rest_framework.settings import api_settings
+from corsheaders.defaults import default_methods
+from corsheaders.defaults import default_headers
+
 # check rest_framework api settings using the api_settings object. 
 # print(api_settings.DEFAULT_AUTHENTICATION_CLASSES)
 
@@ -71,10 +74,10 @@ AUTH_USER_MODEL = 'users.CustomUser'
 
 MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware',
+    'django.middleware.common.CommonMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
-    'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
@@ -100,8 +103,21 @@ TEMPLATES = [
 ]
 
 CORS_ALLOWED_ORIGINS = [
-    "https://crowdharbour.netlify.app/",
+    "https://crowdharbour.netlify.app",
 ]
+
+CSRF_TRUSTED_ORIGINS = [
+    "https://crowdharbour.netlify.app",
+]
+
+CORS_ALLOW_METHODS = (
+    *default_methods,
+    "POKE",
+)
+
+CORS_ALLOW_HEADERS = (
+    *default_headers,
+)
 
 WSGI_APPLICATION = 'crowdfunding.wsgi.application'
 
