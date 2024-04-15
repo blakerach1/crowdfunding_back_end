@@ -106,18 +106,6 @@ CORS_ALLOWED_ORIGINS = [
     "https://crowdharbour.netlify.app",
 ]
 
-CSRF_TRUSTED_ORIGINS = [
-    "https://crowdharbour.netlify.app",
-]
-
-CORS_ALLOW_METHODS = (
-    *default_methods,
-    "POKE",
-)
-
-CORS_ALLOW_HEADERS = (
-    *default_headers,
-)
 
 WSGI_APPLICATION = 'crowdfunding.wsgi.application'
 
