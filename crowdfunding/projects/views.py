@@ -103,8 +103,7 @@ class ProjectList(APIView):
 
 class ProjectDetail(APIView):
     permission_classes = [
-        permissions.IsAuthenticatedOrReadOnly, 
-        IsProjectOwnerOrReadOnly,
+        permissions.IsAuthenticatedOrReadOnly
         ]
 
     def get_object(self, pk):
@@ -144,8 +143,14 @@ class ProjectDetail(APIView):
     
     def delete(self, request, pk):
         project = self.get_object(pk)
-        project.delete()
-        return Response({"message": "Project successfully deleted"}, status=status.HTTP_200_OK)
+
+        if request.user.is_staff or request.user == project.owner:
+            project.delete()
+            return Response({"message": "Project successfully deleted"}, status=status.HTTP_200_OK)
+        
+        return Response({"message": "You do not have permission to delete this project"}, status=status.HTTP_403_FORBIDDEN)
+    
+
 
 class PledgeList(APIView):
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
@@ -171,8 +176,7 @@ class PledgeList(APIView):
 
 class PledgeDetail(APIView):
     permission_classes = [
-        permissions.IsAuthenticatedOrReadOnly,
-        IsPledgeSupporterOwnerOrReadOnly,
+        permissions.IsAuthenticatedOrReadOnly
         ]
 
     def get_object(self, pk):
@@ -209,5 +213,7 @@ class PledgeDetail(APIView):
     
     def delete(self, request, pk):
         pledge = self.get_object(pk)
-        pledge.delete()
-        return Response({"message": "Pledge successfully deleted"}, status=status.HTTP_200_OK)
+        if request.user.is_staff or request.user == pledge.owner:
+            pledge.delete()
+            return Response({"message": "Pledge successfully deleted"}, status=status.HTTP_200_OK)
+        return Response({"message": "You do not have permission to delete this pledge"}, status=status.HTTP_403_FORBIDDEN)
