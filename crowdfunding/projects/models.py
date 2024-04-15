@@ -1,6 +1,10 @@
 from django.db import models
 from django.contrib.auth import get_user_model
+from django.utils.translation import gettext_lazy as _
 
+
+def upload_to(instance, filename):
+    return 'posts/{filename}'.format(filename=filename)
 
 class Category(models.Model):
     title = models.CharField(max_length=200, unique=True)
@@ -17,7 +21,7 @@ class Project(models.Model):
     title = models.CharField(max_length=200)
     description = models.TextField()
     goal = models.IntegerField()
-    image = models.URLField()
+    image = models.ImageField(_("Image"), upload_to=upload_to, default='posts/placeholder-image.png')
     is_open = models.BooleanField(default=True)
     date_created = models.DateTimeField(auto_now_add=True)
     owner = models.ForeignKey(

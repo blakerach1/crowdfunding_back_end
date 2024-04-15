@@ -5,6 +5,7 @@ from .serializers import ProjectSerializer, PledgeSerializer, ProjectDetailSeria
 from django.http import Http404
 from rest_framework import status, permissions
 from .permissions import IsProjectOwnerOrReadOnly, IsPledgeSupporterOwnerOrReadOnly
+from rest_framework.parsers import MultiPartParser, FormParser
 
 
 class CategoryList(APIView):
@@ -79,13 +80,15 @@ class CategoryDetail(APIView):
 
 class ProjectList(APIView):
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+    parser_classes = [MultiPartParser, FormParser] # break different types of data up including text and img
 
     def get(self, request):
         projects = Project.objects.all()
         serializer = ProjectSerializer(projects, many=True)
         return Response(serializer.data)
 
-    def post(self, request):
+    def post(self, request, format=None):
+        print(request.data) #to identify any data issues
         serializer = ProjectSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save(owner=request.user)
@@ -100,8 +103,7 @@ class ProjectList(APIView):
 
 class ProjectDetail(APIView):
     permission_classes = [
-        permissions.IsAuthenticatedOrReadOnly, 
-        IsProjectOwnerOrReadOnly,
+        permissions.IsAuthenticatedOrReadOnly
         ]
 
     def get_object(self, pk):
@@ -141,8 +143,14 @@ class ProjectDetail(APIView):
     
     def delete(self, request, pk):
         project = self.get_object(pk)
-        project.delete()
-        return Response({"message": "Project successfully deleted"}, status=status.HTTP_200_OK)
+
+        if request.user.is_staff or request.user == project.owner:
+            project.delete()
+            return Response({"message": "Project successfully deleted"}, status=status.HTTP_200_OK)
+        
+        return Response({"message": "You do not have permission to delete this project"}, status=status.HTTP_403_FORBIDDEN)
+    
+
 
 class PledgeList(APIView):
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
@@ -168,8 +176,7 @@ class PledgeList(APIView):
 
 class PledgeDetail(APIView):
     permission_classes = [
-        permissions.IsAuthenticatedOrReadOnly,
-        IsPledgeSupporterOwnerOrReadOnly,
+        permissions.IsAuthenticatedOrReadOnly
         ]
 
     def get_object(self, pk):
@@ -206,5 +213,7 @@ class PledgeDetail(APIView):
     
     def delete(self, request, pk):
         pledge = self.get_object(pk)
-        pledge.delete()
-        return Response({"message": "Pledge successfully deleted"}, status=status.HTTP_200_OK)
+        if request.user.is_staff or request.user == pledge.owner:
+            pledge.delete()
+            return Response({"message": "Pledge successfully deleted"}, status=status.HTTP_200_OK)
+        return Response({"message": "You do not have permission to delete this pledge"}, status=status.HTTP_403_FORBIDDEN)
