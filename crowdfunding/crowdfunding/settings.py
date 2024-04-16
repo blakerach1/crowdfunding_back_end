@@ -13,8 +13,6 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 import os
 from pathlib import Path
 from rest_framework.settings import api_settings
-from corsheaders.defaults import default_methods
-from corsheaders.defaults import default_headers
 
 # check rest_framework api settings using the api_settings object. 
 # print(api_settings.DEFAULT_AUTHENTICATION_CLASSES)
@@ -102,10 +100,6 @@ TEMPLATES = [
     },
 ]
 
-CORS_ALLOWED_ORIGINS = [
-    "https://crowdharbour.netlify.app",
-]
-
 
 WSGI_APPLICATION = 'crowdfunding.wsgi.application'
 
@@ -173,6 +167,3 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 #         'BACKEND': 'whitenoise.storage.CompressedManifestStaticFilesStorage',
 #     }
 # }
-
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
-MEDIA_URL = '/media/'
