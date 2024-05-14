@@ -112,12 +112,10 @@ URL: https://crowdfunding-back-end-424.fly.dev/projects/
 
 ![image of database schema for the project](https://github.com/blakerach1/crowdfunding_back_end/blob/main/imgs/CrowdHarbour.drawio.png?raw=true)
 
-### Front End Pages / Functionality
+### Front End
 
-- {{ A page on the front end }}
-  - {{ A list of dot points showing functionality is available on this page }}
-- {{ A second page on the front end }}
-  - {{ A list of dot points showing functionality is available on this page }}
+Stage 2 of this project was to create a React JS frontend that interacts with this backend application. See the frontend repository here: https://github.com/blakerach1/crowdfunding-frontend
+
 
 ## Contact Me
 
